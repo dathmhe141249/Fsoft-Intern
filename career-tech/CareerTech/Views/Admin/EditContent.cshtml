@@ -1,0 +1,82 @@
+﻿@model CareerTech.Models.Introduction
+@{
+    ViewBag.Title = "EditContent";
+    Layout = "~/Views/Shared/_Layout_DashBoard.cshtml";
+    var content = ViewBag.Content;
+}
+
+<main class="mn-inner">
+    <div class="row">
+        <div class="col s12">
+            <div class="page-title">Form Elements</div>
+        </div>
+        <div class="col s12 m12 l6">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Edit Content</span><br>
+                    <div class="row">
+                        @using (Html.BeginForm("EditContent", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+
+                            <input type="text" name="id" hidden="" value="@content.ID" />
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input required name="title" id="title" type="text" class="validate" value="@content.Title">
+                                    <label for="title">Title</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea required id="editor1" name="des" class="validate">
+                                        @Html.Raw(content.Detail.ToString())
+                                    </textarea>
+                                    <label for="editor1">Detail</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label>Main Status:</label> <br />
+                                    @if (content.Main == true)
+                                    {
+                                        @Html.RadioButton("Status", "Public", true, new { id = "main1" })
+                                        <label for="main1">Public</label>
+                                        @Html.RadioButton("Status", "UnPublic", false, new { id = "main2" })
+                                        <label for="main2">UnPublic</label>
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButton("Status", "Public", false, new { id = "main1" })
+                                        <label for="main1">Public</label>
+                                        @Html.RadioButton("Status", "UnPublic", true, new { id = "main2" })
+                                        <label for="main2">UnPublic</label>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <div class="btn teal lighten-1">
+                                    @Html.TextBox("file", (string)content.Url_Image, new { type = "file" }) <br />
+                                </div>
+                                <div class="file-path-wrapper">
+                                    @Html.TextBoxFor(m => m.Url_Image, new { @class = "file-path validate", @Value = (content != null ? content.Url_Image : "") })
+                                </div>
+
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" type="submit">Save Changes </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="~/Content/Dashboard/assets/plugins/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor1');
+</script>
+
+

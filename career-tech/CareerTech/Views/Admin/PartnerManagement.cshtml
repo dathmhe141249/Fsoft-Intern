@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "PartnerManagement";
+    Layout = "~/Views/Shared/_Layout_DashBoard.cshtml";
+}
+@using CareerTech.Models
+
+<main class="mn-inner">
+    <div class="row">
+        <div class="col s12">
+            <div class="page-title">All Partner</div>
+        </div>
+        <div class="col s12 m12 l12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Partner Management</span>
+                    <table id="example" class="display responsive-table datatable-example">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Mail</th>
+                                <th>Phone</th>
+                                <td>Order Detail</td>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <td>Order Detail</td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var p in ViewBag.Partners2)
+                            {
+                                <tr>
+                                    <td>@(p.FullName==null?"No data": p.FullName)</td>
+                                    <td>@(p.Email==null?"No data":p.Email)</td>
+                                    <td>@(p.PhoneNumber == null ? "No data" : p.PhoneNumber)</td>
+                                    <td><a href="OrderDetail?id=@p.Id" target="_blank">View Order Detail</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<main class="mn-inner">
+    <div class="row">
+        <div class="col s12">
+            <div class="page-title">Approved Partner</div>
+        </div>
+        <div class="col s12 m12 l12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Partner Management</span>
+                    <table id="example" class="display responsive-table datatable-example">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Company</th>
+                                <th>Address</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>View</th>
+                                <th>Order Detail</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Company</th>
+                                <th>Adress</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>View</th>
+                                <th>Order Detail</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var partner in ViewBag.Partners)
+                            {
+                                <tr>
+                                    <td>@(partner.UserName==null?"No data":partner.UserName)</td>
+                                    <td>@(partner.CompanyName==null?"No data": partner.CompanyName)</td>
+                                    <td>@(partner.Address == null ? "No data" : partner.Address)</td>
+                                    <td>@(partner.Email==null?"No data":partner.Email)</td>
+                                    <td>@(partner.Phone == null ?"No data":partner.Phone)</td>
+                                    <td><a href="~/company/@partner.CompanyID" target="_blank">View Profile</a></td>
+                                    <td><a href="OrderDetail?id=@partner.UserID"target="_blank">View Order Detail</a></td>
+                                    @if (partner.Status == "Approved")
+                                    {
+                                        <td><p>Approved</p> | <a href="RejectPartner?id=@partner.CompanyID" onclick="return ConfirmReject()"> Reject</a></td>
+
+                                    }
+                                    else
+                                    {
+                                        <td><a href="ApprovePartner?id=@partner.CompanyID" onclick="return ConfirmApprove()">Approve</a> | <p>Reject</p></td>
+
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    function ConfirmApprove() {
+        var x = confirm("Are you sure you want to Aprrove this partner?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+
+</script>
+<script>
+    function ConfirmReject() {
+        var x = confirm("Are you sure you want to Reject this partner?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+
+</script>
+
+

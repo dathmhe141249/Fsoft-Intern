@@ -1,0 +1,101 @@
+﻿@using CareerTech.Models;
+@{
+    ViewBag.Title = "Portfolio";
+    Layout = "~/Views/Shared/_Layout_DashBoard.cshtml";
+    ICollection<Portfolio> listPortfolio = ViewBag.ListPortfolio;
+}
+
+@section jsFooter {
+    <script>
+        $('.btn-public').off('click').on('click', function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            $.ajax({
+                url: "/User/ChangeStatus",
+                data: { id: btn.data('id') },
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    if (res.status == true) {
+                        btn.text('Public');
+                    } else {
+                        btn.text('Private');
+                    }
+                }
+            })
+        })
+    </script>
+}
+<main class="mn-inner inner-active-sidebar">
+    <div class="middle-content">
+        <div class="row">
+            <div class="col s12">
+                <div class="page-title">Portfolio Table</div>
+            </div>
+            <div class="row">
+
+                <div class="col s12 m12 l12">
+                    <div class="card">
+                        <div class="card-content">
+                            <a class="waves-effect waves-light btn lighten-1 m-b-xs modal-trigger" href="#modal1">Creat a Portfolio</a>
+                            <div id="modal1" class="modal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 226.957px;">
+                                <form action="/User/CreatePortfolio" method="POST">
+                                    <div class="modal-content">
+                                        <h4>Create a Portfolio</h4>
+                                        <div class="input-field col s12">
+                                            <label for="portfolioName">Portfolio name</label>
+                                            <input id="portfolioName" name="portfolioName" type="text" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" class="modal-action waves-effect waves-blue btn-flat " value="Create">
+                                        <a class="modal-action modal-close waves-effect waves-blue btn-flat ">Cancel</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 m12 l12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="@ViewBag.Type">@ViewBag.Message</span>
+                        <table id="example" class="display responsive-table datatable-example dataTable" role="grid" aria-describedby="example_info">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 233px;">Name</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 370px;">Public Status</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 370px;">View Detail</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 200px;">Edit</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 200px;">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (listPortfolio.Count == 0 || listPortfolio == null)
+                                {
+                                    <tr><td colspan="6">No item!</td></tr>
+                                }
+                                @if (listPortfolio.Count > 0)
+                                {
+                                    foreach (var p in listPortfolio)
+                                    {
+                                        <tr role="row" class="odd">
+                                            <td>@p.Name</td>
+                                            <td><a href="" class="btn-public" data-id="@p.ID" onclick="changeStatus()">@(p.PublicStatus?"Public":"Private")</a></td>
+                                            <td><a href="@p.Url_Domain" target="_blank">View detail</a></td>
+                                            <td><a href="/User/EditProfilePortfolio/@p.ID">Edit</a></td>
+                                            <td><a href="/User/DeletePortfolio/@p.ID">Delete</a></td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

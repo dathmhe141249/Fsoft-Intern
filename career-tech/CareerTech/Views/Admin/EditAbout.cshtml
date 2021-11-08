@@ -1,0 +1,78 @@
+﻿@model CareerTech.Models.About
+@{
+    ViewBag.Title = "EditAbout";
+    Layout = "~/Views/Shared/_Layout_DashBoard.cshtml";
+    var about = ViewBag.About;
+}
+
+<main class="mn-inner">
+    <div class="row">
+        <div class="col s12">
+            <div class="page-title">Form Elements</div>
+        </div>
+        <div class="col s12 m12 l6">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Edit Content</span><br>
+                    <div class="row">
+                        @using (Html.BeginForm("EditAbout", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+
+                            <input type="text" name="id" hidden="" value="@about.ID" />
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input required name="title" id="title" type="text" class="validate" value="@about.Title">
+                                    <label for="title">Title</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea required id="editor1" name="detail" class="validate">
+                                        @Html.Raw(about.Detail.ToString())
+                                    </textarea>
+                                    <label for="editor1">Detail</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea required id="editor2" name="des" class="validate">
+                                       @Html.Raw(about.Desc.ToString())
+                                    </textarea>
+                                    <label for="editor2">Description</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label>Main Status:</label> <br />
+                                    @if (about.Main == true)
+                                    {
+                                        @Html.RadioButton("Status", "Public", true, new { id = "main1" })
+                                        <label for="main1">Public</label>
+                                        @Html.RadioButton("Status", "UnPublic", false, new { id = "main2" })
+                                        <label for="main2">UnPublic</label>
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButton("Status", "Public", false, new { id = "main1" })
+                                        <label for="main1">Public</label>
+                                        @Html.RadioButton("Status", "UnPublic", true, new { id = "main2" })
+                                        <label for="main2">UnPublic</label>
+                                    }
+
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" type="submit">Save Changes </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+            CKEDITOR.replace('editor1');
+            CKEDITOR.replace('editor2');
+</script>

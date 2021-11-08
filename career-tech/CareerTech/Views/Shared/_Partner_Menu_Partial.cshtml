@@ -1,0 +1,48 @@
+﻿<li class="no-padding active"><a class="waves-effect waves-grey " href="/home/"><i class="material-icons">home</i>Home</a></li>
+<li class="no-padding active"><a class="waves-effect waves-grey " href="~/Partner"><i class="material-icons">settings_input_svideo</i>Dashboard</a></li>
+<li class="no-padding active">
+    @if (Session[CareerTech.Utils.SessionConstant.COMPANY_ID] == null)
+    {
+        <a class="waves-effect waves-grey " href="~/Partner/CreateCompany">
+            <i class="material-icons">apps</i>Company Profile
+        </a>
+    }
+    else
+    {
+        <a class="waves-effect waves-grey " href="~/Partner/CompanyProfile">
+            <i class="material-icons">apps</i>Company Profile
+        </a>
+    }
+</li>
+<li class="no-padding active">
+    <a class="waves-effect waves-grey " href="~/Partner/RecruitmentManage">
+        <i class="material-icons">mode_edit</i>Recruitment Manage
+    </a>
+</li>
+<li class="no-padding active">
+    <a class="waves-effect waves-grey " href="~/Partner/CandidateManage">
+        <i class="material-icons">star_border</i>Apply Candidate Manage
+    </a>
+</li>
+<li class="no-padding active">
+    <a class="waves-effect waves-grey " href="~/Partner/SearchCandidate">
+        <i class="material-icons">search</i>Search Candidate
+    </a>
+</li>
+<li class="no-padding active">
+    <a class="waves-effect waves-grey " href="~/Partner/PartnerProfile">
+        <i class="material-icons">account_circle</i>Profile
+    </a>
+</li>
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+        <li class="no-padding active">
+            <a class="waves-effect waves-grey " href="javascript:document.getElementById('logoutForm').submit()">
+                <i class="material-icons">exit_to_app</i>Sign Out
+            </a>
+        </li>
+    }
+}

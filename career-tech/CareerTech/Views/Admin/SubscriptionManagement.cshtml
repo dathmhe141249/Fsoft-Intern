@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "SubscriptionManagement";
+    Layout = "~/Views/Shared/_Layout_DashBoard.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<main class="mn-inner">
+    <div class="row">
+        <div class="col s12">
+            <div class="page-title">Data Tables</div>
+        </div>
+        <div class="col s12 m12 l12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">SubCription Management</span>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSub">
+                            Add new Subcription
+                        </button>
+                    </div>
+                    <table id="example" class="display responsive-table datatable-example">
+                        <thead>
+                            <tr>
+                                <th>Subcription Name</th>
+                                <th>Price</th>
+                                <th>Type</th>
+                                <th>Period</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Subcription Name</th>
+                                <th>Price</th>
+                                <th>Type</th>
+                                <th>Period</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var s in ViewBag.Sub)
+                            {
+                                <tr>
+                                    <td>@s.Name</td>
+                                    <td>@s.Price</td>
+                                    <td>@s.Type</td>
+                                    <td>@s.Period</td>
+                                    <td>
+                                        <a href="EditSubscription?subID=@s.ID">Edit</a>
+                                    </td>
+                                    <td><a href="DeleteSub?subID=@s.ID" onclick="return ConfirmDelete()">Delete</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div id="addSub" class="modal fade" aria-labelledby="addSub">
+    <div class="modal-dialog" style="min-height=300px;height:475px;overflow:scroll">
+        <div class="modal-content">
+            @using (Html.BeginForm("AddnewSubscription", "Admin", FormMethod.Post))
+            {
+                <div class="modal-header">
+                    <h4 class="modal-title">Add New SubCription</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input name="SubName" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input name="price" type="number" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <input name="type" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Period</label>
+                        <input name="period" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Detail</label>
+                        <textarea required name="Des" id="editor1" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-success" value="Add">
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    CKEDITOR.replace('editor1');
+</script>

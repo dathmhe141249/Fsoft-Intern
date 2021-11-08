@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "SolutionManagement";
+    Layout = "~/Views/Shared/_Layout_DashBoard.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<main class="mn-inner">
+    <div class="row">
+        <div class="col s12">
+            <div class="page-title">Data Tables</div>
+        </div>
+        <div class="col s12 m12 l12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Solution Management</span>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSol">
+                            Add new Solution
+                        </button>
+                    </div>
+                    <table id="example" class="display responsive-table datatable-example">
+                        <thead>
+                            <tr>
+                                <th>Solution Name</th>
+                                <th>Url_img</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Solution Name</th>
+                                <th>Url_img</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var sol in ViewBag.Sol)
+                            {
+                                <tr>
+                                    <td>@sol.Title</td>
+                                    <td>
+                                        <img style="height:30px;width:50px" src=" @sol.Url_image" alt="Solution_Img" />
+                                    </td>
+                                    <td>
+                                        <a href="EditSolution?solID=@sol.ID">Edit</a>
+                                    </td>
+                                    <td><a href="DeleteSolution?solID=@sol.ID" onclick="return ConfirmDelete()">Delete</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="addSol" class="modal fade" aria-labelledby="addSub">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("AddSolution", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-header">
+                    <h4 class="modal-title">Add New Solution</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input name="SolName" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="des" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Image</label>
+                        @Html.TextBox("file", "", new { type = "file" }) <br />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-success" value="Add">
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
